@@ -24,19 +24,18 @@
 #include <lib/support/RandUtils.h>
 #include <support/logging/CHIPLogging.h>
 
-#ifdef MBED_CONF_MBED_TRACE_ENABLE
-#include "mbed-trace/mbed_trace.h"
-#endif
+#include <platform/mbed/Logging.h>
 
 #include "ChipShellMbedCollection.h"
 #include <ChipShellCollection.h>
 
 using namespace chip;
 using namespace chip::Shell;
+using namespace ::chip::Logging::Platform;
 
 int main()
 {
-    chip::Logging::SetLogFilter(chip::Logging::LogCategory::kLogCategory_Progress);
+    mbed_logging_init();
 
     // Initialize the default streamer that was linked.
     const int rc = streamer_init(streamer_get());
@@ -46,12 +45,6 @@ int main()
         ChipLogError(Shell, "Streamer initialization failed: %d", rc);
         return rc;
     }
-
-#ifdef MBED_CONF_MBED_TRACE_ENABLE
-    mbed_trace_init();
-    mbed_trace_include_filters_set("BSDS,NETS");
-    mbed_trace_config_set(TRACE_ACTIVE_LEVEL_ALL | TRACE_MODE_COLOR);
-#endif
 
     cmd_misc_init();
     cmd_base64_init();
