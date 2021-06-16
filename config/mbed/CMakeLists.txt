@@ -63,6 +63,10 @@ set(CHIP_CFLAG_EXCLUDES
 # Helper macros
 # ==============================================================================
 
+macro(chip_gn_arg_import FILE)
+    string(APPEND CHIP_GN_ARGS "import(\"${FILE}\")\n")
+endmacro()
+
 macro(chip_gn_arg_string ARG STRING)
     string(APPEND CHIP_GN_ARGS "${ARG} = \"${STRING}\"\n")
 endmacro()
@@ -112,6 +116,8 @@ endforeach()
 if (NOT CHIP_ROOT)
     get_filename_component(CHIP_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../.. REALPATH)
 endif()
+
+set(GN_ROOT_TARGET ${CHIP_ROOT}/config/mbed/chip-gn)
 
 # Prepare compiler flags
 
@@ -172,6 +178,10 @@ if (CONFIG_CHIP_LIB_SHELL)
     list(APPEND CHIP_LIBRARIES -lCHIPShell)
 endif()
 
+if (CONFIG_CHIP_PW_RPC)
+    list(APPEND CHIP_LIBRARIES -lPwRpc)
+endif()
+
 # Set up CHIP project configuration file
 
 set(CHIP_DEFAULT_CONFIG_FILE "<${CHIP_ROOT}/config/mbed/CHIPProjectConfig.h>")
@@ -194,6 +204,10 @@ endif()
 # Generate configuration for CHIP GN build system
 # ==============================================================================
 
+if (CONFIG_CHIP_PW_RPC)
+    chip_gn_arg_import("${GN_ROOT_TARGET}/lib/pw_rpc/pw_rpc.gni")
+endif()
+
 chip_gn_arg_flags("target_cflags"                         ${CHIP_CFLAGS})
 chip_gn_arg_lang_flags("target_cflags_c"                  ${CHIP_CFLAGS_C})
 chip_gn_arg_lang_flags("target_cflags_cc"                 ${CHIP_CFLAGS_CC})
@@ -206,6 +220,7 @@ chip_gn_arg_bool  ("chip_build_tests"                     CONFIG_CHIP_BUILD_TEST
 chip_gn_arg_bool  ("chip_build_libshell"                  CONFIG_CHIP_LIB_SHELL)
 chip_gn_arg_bool  ("chip_with_platform_mbedtls"           CONFIG_CHIP_WITH_EXTERNAL_MBEDTLS)
 chip_gn_arg_bool  ("chip_bypass_rendezvous"               CONFIG_CHIP_BYPASS_RENDEZVOUS)
+chip_gn_arg_bool  ("chip_build_pw_rpc_lib"                CONFIG_CHIP_PW_RPC)
 
 if (BOARD STREQUAL "native_posix")
     chip_gn_arg_string("target_cpu" "x86")
@@ -223,7 +238,7 @@ ExternalProject_Add(
     PREFIX                  ${CMAKE_CURRENT_BINARY_DIR}
     SOURCE_DIR              ${CHIP_ROOT}
     BINARY_DIR              ${CMAKE_CURRENT_BINARY_DIR}
-    CONFIGURE_COMMAND       gn --root=${CHIP_ROOT}/config/mbed/chip-gn gen --check --fail-on-unused-args ${CMAKE_CURRENT_BINARY_DIR}
+    CONFIGURE_COMMAND       gn --root=${GN_ROOT_TARGET} gen --check --fail-on-unused-args ${CMAKE_CURRENT_BINARY_DIR}
     BUILD_COMMAND           ninja
     INSTALL_COMMAND         ""
     BUILD_BYPRODUCTS        ${CHIP_LIBRARIES}
