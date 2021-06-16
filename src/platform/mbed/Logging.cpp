@@ -12,6 +12,12 @@
 
 #define TRACE_GROUP "CHIP"
 
+#ifdef MBED_TRACE_FILTER_LENGTH
+#define DEFAULT_TRACE_FILTER_LENGTH MBED_TRACE_FILTER_LENGTH
+#else
+#define DEFAULT_TRACE_FILTER_LENGTH 24
+#endif
+
 namespace chip {
 namespace DeviceLayer {
 
@@ -69,6 +75,13 @@ void mbed_logging_init()
     mbed_trace_init();
     mbed_trace_include_filters_set(TRACE_GROUP);
     mbed_trace_config_set(TRACE_ACTIVE_LEVEL_ALL | TRACE_MODE_COLOR);
+
+#if MBED_BSD_SOCKET_TRACE
+    char filtersStr[DEFAULT_TRACE_FILTER_LENGTH];
+    auto filters = mbed_trace_include_filters_get();
+    snprintf(filtersStr, sizeof(filtersStr), "%s,BSDS,NETS", filters);
+    mbed_trace_include_filters_set(filtersStr);
+#endif
 
 #if CHIP_LOG_FILTERING
     // Set default CHIP log filter = kLogCategory_Progress
