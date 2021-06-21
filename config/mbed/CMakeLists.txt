@@ -97,6 +97,19 @@ macro(mbed_interface_library_named name)
   set_property(GLOBAL APPEND PROPERTY ZEPHYR_INTERFACE_LIBS ${name})
 endmacro()
 
+# Select gnu++<YY> standard based on project configuration
+macro(mbed_get_gnu_cpp_standard VAR)
+    if (CONFIG_STD_CPP11)
+        list(APPEND ${VAR} -std=gnu++11)
+    elseif (CONFIG_STD_CPP14)
+        list(APPEND ${VAR} -std=gnu++14)
+    elseif (CONFIG_STD_CPP17)
+        list(APPEND ${VAR} -std=gnu++17)
+    elseif (CONFIG_STD_CPP2A)
+        list(APPEND ${VAR} -std=gnu++20)
+    endif()
+endmacro()
+
 # ==============================================================================
 # Prepare CHIP configuration based on the project configuration
 # ==============================================================================
@@ -112,6 +125,10 @@ foreach(NameAndValue ${ConfigContents})
   # Set the variable
   set(${Name} "${Value}")
 endforeach()
+
+if (CONFIG_CHIP_PW_RPC)
+    set(CONFIG_STD_CPP17 y)
+endif()
 
 if (NOT CHIP_ROOT)
     get_filename_component(CHIP_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../.. REALPATH)
@@ -151,6 +168,8 @@ if (CONFIG_CHIP_WITH_EXTERNAL_MBEDTLS)
     mbed_get_target_common_compile_flags(CHIP_MBEDTLS_CFLAGS mbed-mbedtls)
     list(APPEND CHIP_CFLAGS ${CHIP_MBEDTLS_CFLAGS})
 endif()
+
+mbed_get_gnu_cpp_standard(CHIP_CFLAGS_CC)
 
 list(APPEND CHIP_CFLAGS 
     \"-D__LINUX_ERRNO_EXTENSIONS__=1\"

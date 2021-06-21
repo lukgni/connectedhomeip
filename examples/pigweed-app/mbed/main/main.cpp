@@ -21,7 +21,7 @@
 
 #include "pw_rpc/echo_service_nanopb.h"
 #include "pw_sys_io/sys_io.h"
-#include "pw_sys_io_nrfconnect/init.h"
+#include "pw_sys_io_mbed/init.h"
 
 #include <platform/mbed/Logging.h>
 #include <support/logging/CHIPLogging.h>
@@ -46,6 +46,7 @@ void RegisterServices(pw::rpc::Server & server)
 
 void RunRpcService()
 {
+    ChipLogProgress(NotSpecified, "Run RPC service...");
     ::chip::rpc::Start(RegisterServices, &::chip::rpc::logger_mutex);
 }
 
@@ -61,11 +62,7 @@ int main()
 
     sStatusLED.Set(true);
 
-    auto error = rpcThread.start([this] {
-        ChipLogDetail(NotSpecified, "RPC service running");
-        RunRpcService()
-    });
-
+    auto error = rpcThread.start(RunRpcService);
     if (error != osOK)
     {
         ChipLogError(NotSpecified, "Run RPC service failed[%d]", error);

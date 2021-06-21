@@ -18,7 +18,7 @@
 #pragma once
 
 #include "PigweedLogger.h"
-#include "RpcService.h"
+#include "pigweed/RpcService.h"
 #include "rtos/Mutex.h"
 
 namespace chip {
@@ -29,7 +29,7 @@ class PigweedLoggerMutex : public chip::rpc::Mutex
 public:
     void Lock() override
     {
-        rtos::Mutex * mutex = PigweedLogger::getSemaphore();
+        rtos::Mutex * mutex = PigweedLogger::GetSemaphore();
         if (mutex)
         {
             mutex->lock();
@@ -37,7 +37,7 @@ public:
     }
     void Unlock() override
     {
-        rtos::Mutex * mutex = PigweedLogger::getSemaphore();
+        rtos::Mutex * mutex = PigweedLogger::GetSemaphore();
         if (mutex)
         {
             mutex->unlock();

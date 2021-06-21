@@ -83,7 +83,7 @@ int putString(const char * buffer, size_t size)
     return size;
 }
 
-SemaphoreHandle_t * getSemaphore()
+rtos::Mutex * GetSemaphore()
 {
     return &mbed_log_mutex;
 }
