@@ -27,33 +27,46 @@ endif()
 
 add_executable(${APP_TARGET})
 
-include(${PIGWEED_ROOT}/pw_build/pigweed.cmake)
-include(${PIGWEED_ROOT}/pw_protobuf_compiler/proto.cmake)
-
-pw_set_backend(pw_log pw_log_basic)
-pw_set_backend(pw_assert pw_assert_log)
-pw_set_backend(pw_sys_io pw_sys_io.nrfconnect)
-set(dir_pw_third_party_nanopb "${CHIP_ROOT}/third_party/nanopb/repo" CACHE STRING "" FORCE)
-
-add_subdirectory(${CHIP_ROOT}/third_party/nanopb/repo ./nanopb_build)
-add_subdirectory(${CHIP_ROOT}/third_party/pigweed/repo ./pigweed_build)
-
 target_include_directories(${APP_TARGET} PRIVATE
-                           ${CMAKE_CURRENT_SOURCE_DIR}
-                           ${MBED_COMMON}/util/include
-                           ${CHIP_ROOT}/src/lib/support
-                           ${PIGWEED_ROOT}/pw_sys_io/public
-                           ${PIGWEED_ROOT}/pw_span/public_overrides
-                           ${PIGWEED_ROOT}/pw_span/public
-                           ${PIGWEED_ROOT}/pw_polyfill/public
-                           ${PIGWEED_ROOT}/pw_polyfill/standard_library_public
-                           ${PIGWEED_ROOT}/pw_polyfill/public_overrides
-                           ${PIGWEED_ROOT}/pw_rpc/public
-                           ${PIGWEED_ROOT}/pw_status/public
-                           ${PIGWEED_ROOT}/pw_preprocessor/public
-                           ../../common
-                           ../../common/pigweed/mbed
-                           ${MBED_COMMON}/pw_sys_io/public)
+                        ${CMAKE_CURRENT_SOURCE_DIR}
+                        ${MBED_COMMON}/util/include
+                        ${CHIP_ROOT}/src/lib/support
+
+                        ${PIGWEED_ROOT}/pw_sys_io/public
+                        ${PIGWEED_ROOT}/pw_assert/public
+                        ${PIGWEED_ROOT}/pw_assert_log/public
+                        ${PIGWEED_ROOT}/pw_assert_log/public_overrides
+                        ${PIGWEED_ROOT}/pw_bytes/public
+                        ${PIGWEED_ROOT}/pw_checksum/public
+                        ${PIGWEED_ROOT}/pw_containers/public
+                        ${PIGWEED_ROOT}/pw_hdlc/public
+                        ${PIGWEED_ROOT}/pw_log/public
+                        ${PIGWEED_ROOT}/pw_log_basic/public
+                        ${PIGWEED_ROOT}/pw_log_basic/public_overrides
+                        ${PIGWEED_ROOT}/pw_span/public_overrides
+                        ${PIGWEED_ROOT}/pw_span/public
+                        ${PIGWEED_ROOT}/pw_polyfill/public
+                        ${PIGWEED_ROOT}/pw_polyfill/standard_library_public
+                        ${PIGWEED_ROOT}/pw_polyfill/public_overrides
+                        ${PIGWEED_ROOT}/pw_rpc/public
+                        ${PIGWEED_ROOT}/pw_rpc/nanopb/public
+                        ${PIGWEED_ROOT}/pw_rpc/raw/public
+                        ${PIGWEED_ROOT}/pw_protobuf/public
+                        ${PIGWEED_ROOT}/pw_status/public
+                        ${PIGWEED_ROOT}/pw_stream/public
+                        ${PIGWEED_ROOT}/pw_result/public
+                        ${PIGWEED_ROOT}/pw_varint/public
+                        ${PIGWEED_ROOT}/pw_preprocessor/public
+                        ${PIGWEED_ROOT}/pw_rpc/system_server/public
+                        ${CHIP_ROOT}/third_party/nanopb/repo
+
+                        ${CMAKE_CURRENT_BINARY_DIR}/chip_build/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/nanopb
+						${CMAKE_CURRENT_BINARY_DIR}/chip_build/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/nanopb_rpc
+						${CMAKE_CURRENT_BINARY_DIR}/chip_build/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/pwpb
+                        
+                        ../../common
+                        ../../common/pigweed/mbed
+                        ${MBED_COMMON}/pw_sys_io/public)
 
 target_sources(${APP_TARGET} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/main/main.cpp
@@ -90,14 +103,6 @@ if("WHD" IN_LIST MBED_TARGET_LABELS)
 endif()
 
 target_link_libraries(${APP_TARGET} mbed-os mbed-ble mbed-events mbed-netsocket mbed-storage mbed-storage-kv-global-api mbed-mbedtls mbed-mbedtls-cryptocell310 chip)
-
-target_link_libraries(${APP_TARGET}
-  pw_checksum
-  pw_hdlc
-  pw_log
-  pw_rpc.nanopb.echo_service
-  pw_rpc.server
-)
 
 mbed_set_post_build(${APP_TARGET})
 
