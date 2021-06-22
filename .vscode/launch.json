@@ -336,7 +336,8 @@
                 "shell",
                 "lock-app",
                 "lighting-app",
-                "all-clusters-app"
+                "all-clusters-app",
+                "pigweed-app"
             ],
             "default": "shell"
         }

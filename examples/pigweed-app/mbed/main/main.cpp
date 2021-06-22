@@ -56,11 +56,11 @@ int main()
 {
     pw_sys_io_Init();
 
+    mbed_logging_init();
+
     ChipLogProgress(NotSpecified, "==================================================\r\n");
     ChipLogProgress(NotSpecified, "chip-mbed-pigweed-example starting\r\n");
     ChipLogProgress(NotSpecified, "==================================================\r\n");
-
-    sStatusLED.Set(true);
 
     auto error = rpcThread.start(RunRpcService);
     if (error != osOK)
