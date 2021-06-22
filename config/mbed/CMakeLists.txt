@@ -311,6 +311,10 @@ if (CONFIG_MBED_BSD_SOCKET_TRACE)
     )
 endif()
 
+if (CONFIG_CHIP_PW_RPC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17" PARENT_SCOPE)
+endif()
+
 target_include_directories(${APP_TARGET} PRIVATE 
                            ${CHIP_INCLUDES}
 )

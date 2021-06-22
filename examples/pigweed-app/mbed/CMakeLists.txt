@@ -63,7 +63,7 @@ target_include_directories(${APP_TARGET} PRIVATE
                         ${CMAKE_CURRENT_BINARY_DIR}/chip_build/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/nanopb
 						${CMAKE_CURRENT_BINARY_DIR}/chip_build/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/nanopb_rpc
 						${CMAKE_CURRENT_BINARY_DIR}/chip_build/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/pwpb
-                        
+
                         ../../common
                         ../../common/pigweed/mbed
                         ${MBED_COMMON}/pw_sys_io/public)
