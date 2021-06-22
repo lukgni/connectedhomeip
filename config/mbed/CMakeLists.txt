@@ -94,7 +94,6 @@ endmacro()
 
 macro(mbed_interface_library_named name)
   add_library(${name} INTERFACE)
-  set_property(GLOBAL APPEND PROPERTY ZEPHYR_INTERFACE_LIBS ${name})
 endmacro()
 
 # Select gnu++<YY> standard based on project configuration
