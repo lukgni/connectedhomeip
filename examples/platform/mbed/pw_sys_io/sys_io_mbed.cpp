@@ -20,18 +20,18 @@
 
 #include "pw_sys_io/sys_io.h"
 
-//#include <platform/FileHandle.h>
-//#include <platform/mbed_retarget.h>
+#include <platform/FileHandle.h>
+#include <platform/mbed_retarget.h>
 
-// using namespace mbed;
+using namespace mbed;
 
-// static FileHandle * console_in;
-// static FileHandle * console_out;
+static FileHandle * console_in;
+static FileHandle * console_out;
 
 extern "C" void pw_sys_io_Init()
 {
-    // console_in  = mbed_file_handle(STDIN_FILENO);
-    // console_out = mbed_file_handle(STDOUT_FILENO);
+    console_in  = mbed_file_handle(STDIN_FILENO);
+    console_out = mbed_file_handle(STDOUT_FILENO);
 }
 
 namespace pw::sys_io {
@@ -43,17 +43,17 @@ Status ReadByte(std::byte * dest)
         return Status::InvalidArgument();
     }
 
-    // char c;
-    // auto ret = console_in->read(&c, 1);
-    //*dest    = static_cast<std::byte>(c);
+    char c;
+    auto ret = console_in->read(&c, 1);
+    *dest    = static_cast<std::byte>(c);
 
-    return /*ret != 1 ? Status::FailedPrecondition() : */ OkStatus();
+    return ret != 1 ? Status::FailedPrecondition() : OkStatus();
 }
 
 Status WriteByte(std::byte b)
 {
-    // auto ret = console_out->write(reinterpret_cast<const char *>(&b), 1);
-    return /*ret != 1 ? Status::FailedPrecondition() :  */ OkStatus();
+    auto ret = console_out->write(reinterpret_cast<const char *>(&b), 1);
+    return ret != 1 ? Status::FailedPrecondition() : OkStatus();
 }
 
 // Writes a string using pw::sys_io, and add newline characters at the end.
