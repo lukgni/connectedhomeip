@@ -16,7 +16,6 @@ configure_file(
 set(MBED_PATH $ENV{MBED_OS_PATH} CACHE INTERNAL "")
 set(MBED_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "")
 set(APP_TARGET chip-mbed-pigweed-app-example)
-set(PIGWEED_ROOT "${CHIP_ROOT}/third_party/pigweed/repo")
 
 include(${MBED_PATH}/tools/cmake/app.cmake)
 add_subdirectory(${MBED_PATH} ./mbed_build)
@@ -31,49 +30,11 @@ target_include_directories(${APP_TARGET} PRIVATE
                         ${CMAKE_CURRENT_SOURCE_DIR}
                         ${MBED_COMMON}/util/include
                         ${CHIP_ROOT}/src/lib/support
-
-                        ${PIGWEED_ROOT}/pw_sys_io/public
-                        ${PIGWEED_ROOT}/pw_assert/public
-                        ${PIGWEED_ROOT}/pw_assert_log/public
-                        ${PIGWEED_ROOT}/pw_assert_log/public_overrides
-                        ${PIGWEED_ROOT}/pw_bytes/public
-                        ${PIGWEED_ROOT}/pw_checksum/public
-                        ${PIGWEED_ROOT}/pw_containers/public
-                        ${PIGWEED_ROOT}/pw_hdlc/public
-                        ${PIGWEED_ROOT}/pw_log/public
-                        ${PIGWEED_ROOT}/pw_log_basic/public
-                        ${PIGWEED_ROOT}/pw_log_basic/public_overrides
-                        ${PIGWEED_ROOT}/pw_span/public_overrides
-                        ${PIGWEED_ROOT}/pw_span/public
-                        ${PIGWEED_ROOT}/pw_polyfill/public
-                        ${PIGWEED_ROOT}/pw_polyfill/standard_library_public
-                        ${PIGWEED_ROOT}/pw_polyfill/public_overrides
-                        ${PIGWEED_ROOT}/pw_rpc/public
-                        ${PIGWEED_ROOT}/pw_rpc/nanopb/public
-                        ${PIGWEED_ROOT}/pw_rpc/raw/public
-                        ${PIGWEED_ROOT}/pw_protobuf/public
-                        ${PIGWEED_ROOT}/pw_status/public
-                        ${PIGWEED_ROOT}/pw_stream/public
-                        ${PIGWEED_ROOT}/pw_result/public
-                        ${PIGWEED_ROOT}/pw_varint/public
-                        ${PIGWEED_ROOT}/pw_preprocessor/public
-                        ${PIGWEED_ROOT}/pw_rpc/system_server/public
-                        ${CHIP_ROOT}/third_party/nanopb/repo
-
-                        ${CMAKE_CURRENT_BINARY_DIR}/chip_build/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/nanopb
-						${CMAKE_CURRENT_BINARY_DIR}/chip_build/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/nanopb_rpc
-						${CMAKE_CURRENT_BINARY_DIR}/chip_build/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/pwpb
-
-                        ../../common
-                        ../../common/pigweed/mbed
-                        ${MBED_COMMON}/pw_sys_io/public)
+)
 
 target_sources(${APP_TARGET} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/main/main.cpp
-    ../../common/pigweed/RpcService.cpp
-    ../../common/pigweed/mbed/PigweedLoggerMutex.cpp
     ${MBED_COMMON}/util/LEDWidget.cpp
-    ${MBED_COMMON}/util/PigweedLogger.cpp
 )
 
 add_subdirectory(${CHIP_ROOT}/config/mbed ./chip_build)

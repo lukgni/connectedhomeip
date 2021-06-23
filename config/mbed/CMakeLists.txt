@@ -322,3 +322,54 @@ target_include_directories(${APP_TARGET} PRIVATE
 target_compile_definitions(${APP_TARGET} PRIVATE
                            ${CHIP_DEFINES}                      
 )
+
+
+if (CONFIG_CHIP_PW_RPC)
+
+set(PIGWEED_ROOT "${CHIP_ROOT}/third_party/pigweed/repo")
+
+target_sources(${APP_TARGET} PRIVATE
+    ${CHIP_ROOT}/examples/common/pigweed/RpcService.cpp
+    ${CHIP_ROOT}/examples/common/pigweed/mbed/PigweedLoggerMutex.cpp
+    ${MBED_COMMON}/util/PigweedLogger.cpp
+)
+
+target_include_directories(${APP_TARGET} PRIVATE
+                    ${PIGWEED_ROOT}/pw_sys_io/public
+                    ${PIGWEED_ROOT}/pw_assert/public
+                    ${PIGWEED_ROOT}/pw_assert_log/public
+                    ${PIGWEED_ROOT}/pw_assert_log/public_overrides
+                    ${PIGWEED_ROOT}/pw_bytes/public
+                    ${PIGWEED_ROOT}/pw_checksum/public
+                    ${PIGWEED_ROOT}/pw_containers/public
+                    ${PIGWEED_ROOT}/pw_hdlc/public
+                    ${PIGWEED_ROOT}/pw_log/public
+                    ${PIGWEED_ROOT}/pw_log_basic/public
+                    ${PIGWEED_ROOT}/pw_log_basic/public_overrides
+                    ${PIGWEED_ROOT}/pw_span/public_overrides
+                    ${PIGWEED_ROOT}/pw_span/public
+                    ${PIGWEED_ROOT}/pw_polyfill/public
+                    ${PIGWEED_ROOT}/pw_polyfill/standard_library_public
+                    ${PIGWEED_ROOT}/pw_polyfill/public_overrides
+                    ${PIGWEED_ROOT}/pw_rpc/public
+                    ${PIGWEED_ROOT}/pw_rpc/nanopb/public
+                    ${PIGWEED_ROOT}/pw_rpc/raw/public
+                    ${PIGWEED_ROOT}/pw_protobuf/public
+                    ${PIGWEED_ROOT}/pw_status/public
+                    ${PIGWEED_ROOT}/pw_stream/public
+                    ${PIGWEED_ROOT}/pw_result/public
+                    ${PIGWEED_ROOT}/pw_varint/public
+                    ${PIGWEED_ROOT}/pw_preprocessor/public
+                    ${PIGWEED_ROOT}/pw_rpc/system_server/public
+                    ${CHIP_ROOT}/third_party/nanopb/repo
+
+                    ${CHIP_ROOT}/examples/common
+                    ${CHIP_ROOT}/examples//common/pigweed/mbed
+                    ${MBED_COMMON}/pw_sys_io/public
+
+                    ${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/nanopb
+					${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/nanopb_rpc
+					${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/pwpb
+)
+
+endif(CONFIG_CHIP_PW_RPC)
