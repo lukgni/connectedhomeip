@@ -238,6 +238,31 @@ void AppTask::FunctionButtonReleaseEventHandler()
     sAppTask.PostEvent(&button_event);
 }
 
+void AppTask::ButtonEventHandler(uint32_t id, bool pushed)
+{
+    if (id > 1)
+    {
+        ChipLogError(NotSpecified, "Wrong button ID");
+        return;
+    }
+
+    AppEvent button_event;
+    button_event.Type               = AppEvent::kEventType_Button;
+    button_event.ButtonEvent.Pin    = id == 0 ? LIGHTING_BUTTON : FUNCTION_BUTTON;
+    button_event.ButtonEvent.Action = pushed ? BUTTON_PUSH_EVENT : BUTTON_RELEASE_EVENT;
+
+    if (id == 0)
+    {
+        button_event.Handler = LightingActionEventHandler;
+    }
+    else
+    {
+        button_event.Handler = FunctionHandler;
+    }
+
+    sAppTask.PostEvent(&button_event);
+}
+
 void AppTask::ActionInitiated(LightingManager::Action_t aAction, int32_t aActor)
 {
     if (aAction == LightingManager::ON_ACTION)

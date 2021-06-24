@@ -26,6 +26,10 @@
 
 #include <platform/mbed/Logging.h>
 
+#if CONFIG_CHIP_PW_RPC
+#include "Rpc.h"
+#endif
+
 using namespace ::chip;
 using namespace ::chip::Inet;
 using namespace ::chip::DeviceLayer;
@@ -43,6 +47,10 @@ int main()
         ChipLogError(NotSpecified, "Mbed TLS platform initialization failed with error %d", ret);
         goto exit;
     }
+
+#if CONFIG_CHIP_PW_RPC
+    chip::rpc::Init();
+#endif
 
     ret = chip::Platform::MemoryInit();
     if (ret != CHIP_NO_ERROR)
