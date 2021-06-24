@@ -23,3 +23,5 @@ pw_rpc_system_server_BACKEND =
     "${chip_root}/examples/common/pigweed:system_rpc_server"
 
 dir_pw_third_party_nanopb = "${chip_root}/third_party/nanopb/repo"
+
+chip_enable_pw_rpc = true

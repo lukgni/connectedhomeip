@@ -198,7 +198,11 @@ endif()
 
 if (CONFIG_CHIP_PW_RPC)
     list(APPEND CHIP_LIBRARIES -lPwRpc)
-endif()
+    if (${APP_TARGET} MATCHES "lighting-app")
+        set(CONFIG_CHIP_PW_RPC_COMMON_PROTO "y")
+        set(CONFIG_CHIP_PW_RPC_LIGHTING_PROTO "y")
+    endif()
+endif(CONFIG_CHIP_PW_RPC)
 
 # Set up CHIP project configuration file
 
@@ -239,6 +243,10 @@ chip_gn_arg_bool  ("chip_build_libshell"                  CONFIG_CHIP_LIB_SHELL)
 chip_gn_arg_bool  ("chip_with_platform_mbedtls"           CONFIG_CHIP_WITH_EXTERNAL_MBEDTLS)
 chip_gn_arg_bool  ("chip_bypass_rendezvous"               CONFIG_CHIP_BYPASS_RENDEZVOUS)
 chip_gn_arg_bool  ("chip_build_pw_rpc_lib"                CONFIG_CHIP_PW_RPC)
+if (CONFIG_CHIP_PW_RPC)
+    chip_gn_arg_bool  ("chip_build_pw_rpc_common_proto"       CONFIG_CHIP_PW_RPC_COMMON_PROTO)
+    chip_gn_arg_bool  ("chip_build_pw_rpc_lighting_proto"     CONFIG_CHIP_PW_RPC_LIGHTING_PROTO)
+endif(CONFIG_CHIP_PW_RPC)
 
 if (BOARD STREQUAL "native_posix")
     chip_gn_arg_string("target_cpu" "x86")
@@ -313,6 +321,9 @@ endif()
 
 if (CONFIG_CHIP_PW_RPC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17" PARENT_SCOPE)
+    list(APPEND CHIP_DEFINES 
+        CONFIG_CHIP_PW_RPC=1
+    )
 endif()
 
 target_include_directories(${APP_TARGET} PRIVATE 
@@ -371,5 +382,24 @@ target_include_directories(${APP_TARGET} PRIVATE
 					${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/nanopb_rpc
 					${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_rpc/protos.proto_library/pwpb
 )
+
+if (${APP_TARGET} MATCHES "lighting-app")
+    target_include_directories(${APP_TARGET} PRIVATE
+        ${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/examples/common/pigweed/button_service.proto_library/nanopb
+        ${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/examples/common/pigweed/button_service.proto_library/nanopb_rpc
+
+        ${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/examples/common/pigweed/device_service.proto_library/nanopb
+        ${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/examples/common/pigweed/device_service.proto_library/nanopb_rpc
+
+        ${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/examples/lighting-app/lighting-common/lighting_service.proto_library/nanopb
+        ${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/examples/lighting-app/lighting-common/lighting_service.proto_library/nanopb_rpc
+
+        ${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_protobuf/common_protos.proto_library/nanopb
+        ${CMAKE_CURRENT_BINARY_DIR}/gen/third_party/connectedhomeip/third_party/pigweed/repo/pw_protobuf/common_protos.proto_library/nanopb_rpc
+    )
+    target_sources(${APP_TARGET} PRIVATE
+        ${CHIP_ROOT}/examples/lighting-app/mbed/main/Rpc.cpp
+    )
+endif()
 
 endif(CONFIG_CHIP_PW_RPC)
