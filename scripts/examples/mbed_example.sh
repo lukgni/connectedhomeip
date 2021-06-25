@@ -85,6 +85,14 @@ if [[ ! " ${SUPPORTED_PROFILES[@]} " =~ " ${PROFILE} " ]]; then
     exit 1
 fi
 
+isPigweedRpcSupport() {
+    if grep -q "CONFIG_CHIP_PW_RPC=y" "$APP"/mbed/config.in; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 set -e
 pwd
 
@@ -109,6 +117,10 @@ if [[ "$COMMAND" == *"build"* ]]; then
 
         # Create symlinks to WIFI-ISM43362 submodule
         ln -sfTr $WIFI_ISM43362_PATH "${APP}/mbed/wifi-ism43362"
+    fi
+
+    if isPigweedRpcSupport $1; then
+        source "$CHIP_ROOT"/scripts/activate.sh
     fi
 
     # Generate config file for selected target, toolchain and hardware
