@@ -87,4 +87,4 @@ jobs:
                   name:
                       ${{ env.BUILD_TYPE }}-${{matrix.EXAMPLE_APP}}-example-${{matrix.EXAMPLE_TARGET}}-${{ env.EXAMPLE_PROFILE}}-build-${{
                       steps.outsuffix.outputs.value }}
-                  path: /tmp/output_binaries/${{ env.BUILD_TYPE }}-build/${{matrix.EXAMPLE_APP}}_${{matrix.EXAMPLE_TARGET}}_${{ env.EXAMPLE_PROFILE }}.hex
+                  path: /tmp/output_binaries
