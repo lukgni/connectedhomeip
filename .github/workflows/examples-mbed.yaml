@@ -73,13 +73,21 @@ jobs:
                   if_true: "${{ github.sha }}"
                   if_false: "pull-${{ github.event.pull_request.number }}"
 
-            - name: Copy aside binaries
+            - name: Copy application image
               run: |
                   cp examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/chip-mbed-${{matrix.EXAMPLE_APP}}-example.hex \
                       /tmp/output_binaries/${{matrix.EXAMPLE_APP}}_${{matrix.EXAMPLE_TARGET}}_$EXAMPLE_PROFILE.hex
-                  if [[ -d examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env ]]; then
-                      cp -r examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env /tmp/output_binaries/
-                  fi
+
+            - name: Check extra artifacts existence
+              id: check_artifacts
+              uses: andstor/file-existence-action@v1
+              with:
+                  files: "examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env"
+
+            - name: Copy extra artifacts
+              if: steps.check_artifacts.outputs.files_exists == 'true'
+              # Only runs if all of the artifacts exists
+              run: cp -r examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env /tmp/output_binaries/
 
             - name: Uploading Binaries
               uses: actions/upload-artifact@v1
