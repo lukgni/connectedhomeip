@@ -82,7 +82,7 @@ jobs:
               id: check_artifacts
               uses: andstor/file-existence-action@v1
               with:
-                  files: "examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env"
+                  files: "examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env/"
 
             - name: Copy extra artifacts
               if: steps.check_artifacts.outputs.files_exists == 'true'
