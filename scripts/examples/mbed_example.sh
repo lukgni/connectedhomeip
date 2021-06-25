@@ -121,6 +121,7 @@ if [[ "$COMMAND" == *"build"* ]]; then
 
     if isPigweedRpcSupport $1; then
         source "$CHIP_ROOT"/scripts/activate.sh
+        pip install -r "$CHIP_ROOT"/third_party/mbed-os/repo/requirements.txt
     fi
 
     # Generate config file for selected target, toolchain and hardware
