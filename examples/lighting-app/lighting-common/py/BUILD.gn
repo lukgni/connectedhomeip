@@ -39,5 +39,5 @@ pw_python_package("lighting_app") {
 pw_mirror_tree("lighting_app_wheel") {
   path_data_keys = [ "pw_python_package_wheels" ]
   deps = [ ":lighting_app.wheel" ]
-  directory = "$root_out_dir/lighting_app_wheels"
+  directory = "$root_out_dir/lighting-app-wheels"
 }

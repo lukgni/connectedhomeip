@@ -65,12 +65,6 @@ jobs:
             - name: Build example Shell App
               run: scripts/examples/mbed_example.sh -a=${{matrix.EXAMPLE_APP}} -b=${{matrix.EXAMPLE_TARGET}} -p=$EXAMPLE_PROFILE
 
-            - name: Copy aside build products
-              run: |
-                  mkdir -p example_binaries/$BUILD_TYPE-build/
-                  cp examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/chip-mbed-${{matrix.EXAMPLE_APP}}-example.hex \
-                     example_binaries/$BUILD_TYPE-build/${{matrix.EXAMPLE_APP}}_${{matrix.EXAMPLE_TARGET}}_$EXAMPLE_PROFILE.hex
-
             - name: Binary artifact suffix
               id: outsuffix
               uses: haya14busa/action-cond@v1.0.0
@@ -81,7 +75,11 @@ jobs:
 
             - name: Copy aside binaries
               run: |
-                  cp -r example_binaries/$BUILD_TYPE-build/ /tmp/output_binaries/
+                  cp examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/chip-mbed-${{matrix.EXAMPLE_APP}}-example.hex \
+                      /tmp/output_binaries/${{matrix.EXAMPLE_APP}}_${{matrix.EXAMPLE_TARGET}}_$EXAMPLE_PROFILE.hex
+                  if [[ -d examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env ]]; then
+                      cp -r examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env /tmp/output_binaries/
+                  fi
 
             - name: Uploading Binaries
               uses: actions/upload-artifact@v1

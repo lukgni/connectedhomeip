@@ -137,6 +137,13 @@ if [[ "$COMMAND" == *"build"* ]]; then
     # Build application
     cmake -S "$APP/mbed" -B "$BUILD_DIRECTORY" -GNinja -DCMAKE_BUILD_TYPE="$PROFILE"
     cmake --build "$BUILD_DIRECTORY"
+
+    if isPigweedRpcSupport $1; then
+        if [[ -d ${BUILD_DIRECTORY}/chip_build/"$APP"-wheels ]]; then
+            mkdir -p ${BUILD_DIRECTORY}/python_env
+            cp -R ${BUILD_DIRECTORY}/chip_build/"$APP"-wheels/. ${BUILD_DIRECTORY}/python_env
+        fi
+    fi
 fi
 
 if [[ "$COMMAND" == *"flash"* ]]; then

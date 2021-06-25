@@ -4,15 +4,14 @@ An example showing the use of CHIP on the Silicon Labs EFR32 MG12.
 
 <hr>
 
--   [CHIP EFR32 Lighting Example](#chip-efr32-lighting-example)
-    -   [Introduction](#introduction)
-    -   [Building](#building)
-        -   [Note](#note)
-    -   [Flashing the Application](#flashing-the-application)
-    -   [Viewing Logging Output](#viewing-logging-output)
-    -   [Running the Complete Example](#running-the-complete-example)
-        -   [Notes](#notes)
-    -   [Running Pigweed RPC console](#running-pigweed-rpc-console)
+- [Introduction](#introduction)
+- [Building](#building)
+- [Flashing the Application](#flashing-the-application)
+- [Viewing Logging Output](#viewing-logging-output)
+- [Running the Complete Example](#running-the-complete-example)
+  - [Notes](#notes)
+- [Running Pigweed RPC console](#running-pigweed-rpc-console)
+- [Memory settings](#memory-settings)
 
 <hr>
 
@@ -282,9 +281,9 @@ via 2002::2
 
 -   As part of building the example with RPCs enabled the lighting_app python
     interactive console is installed into your venv. The python wheel files are
-    also created in the output folder: out/debug/lighting_app_wheels. To install
+    also created in the output folder: out/debug/lighting-app-wheels. To install
     the wheel files without rebuilding:
-    `pip3 install out/debug/lighting_app_wheels/*.whl`
+    `pip3 install out/debug/lighting-app-wheels/*.whl`
 
 -   To use the lighting-app console after it has been installed run:
     `python3 -m lighting_app.rpc_console --device /dev/tty.<SERIALDEVICE> -b 115200 -o /<YourFolder>/pw_log.out`
