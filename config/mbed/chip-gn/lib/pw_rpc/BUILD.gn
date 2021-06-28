@@ -17,8 +17,10 @@ import("//build_overrides/pigweed.gni")
 import("$dir_pw_build/target_types.gni")
 
 declare_args() {
+  chip_build_pw_rpc_echo_proto = false
   chip_build_pw_rpc_lighting_proto = false
   chip_build_pw_rpc_common_proto = false
+  chip_build_pw_rpc_console = ""
 }
 
 static_library("pw_rpc") {
@@ -35,11 +37,12 @@ static_library("pw_rpc") {
     dir_pw_log,
   ]
 
+  if (chip_build_pw_rpc_echo_proto) {
+    deps += [ "$dir_pw_rpc/nanopb:echo_service" ]
+  }
+
   if (chip_build_pw_rpc_lighting_proto) {
-    deps += [ "${chip_root}/examples/lighting-app/lighting-common:lighting_service.nanopb_rpc",
-              "${chip_root}/examples/lighting-app/lighting-common/py:lighting_app.install",
-              "${chip_root}/examples/lighting-app/lighting-common/py:lighting_app_wheel"
-    ]
+    deps += [ "${chip_root}/examples/lighting-app/lighting-common:lighting_service.nanopb_rpc" ]
   }
 
   if (chip_build_pw_rpc_common_proto) {
@@ -47,6 +50,16 @@ static_library("pw_rpc") {
         "${chip_root}/examples/common/pigweed:button_service.nanopb_rpc",
         "${chip_root}/examples/common/pigweed:device_service.nanopb_rpc"
     ]
+  }
+
+  if (chip_build_pw_rpc_console == "lighting-app") {
+      deps += ["${chip_root}/examples/lighting-app/lighting-common/py:lighting_app.install",
+               "${chip_root}/examples/lighting-app/lighting-common/py:lighting_app_wheel"
+      ]
+  } else if (chip_build_pw_rpc_console == "pigweed-app") {
+      deps += ["${chip_root}/examples/pigweed-app/pigweed-common/py:pigweed_app.install",
+               "${chip_root}/examples/pigweed-app/pigweed-common/py:pigweed_app_wheel"
+      ]
   }
 
   output_dir = "${root_out_dir}/lib"
