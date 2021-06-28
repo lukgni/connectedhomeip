@@ -79,7 +79,8 @@ jobs:
                       /tmp/output_binaries/${{matrix.EXAMPLE_APP}}_${{matrix.EXAMPLE_TARGET}}_$EXAMPLE_PROFILE.hex
 
             - name: Copy extra artifacts
-              run: test -d examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env && \
+              run: |
+                test -d examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env && \
                    cp -r examples/${{matrix.EXAMPLE_APP}}/mbed/build-${{matrix.EXAMPLE_TARGET}}/$EXAMPLE_PROFILE/python_env /tmp/output_binaries/ || \
                    echo "Extra artifacts do not exist" 
 
