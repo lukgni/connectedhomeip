@@ -8,6 +8,6 @@ message EchoMessage {
   string msg = 1;
 }
 
-service EchoService {
-  rpc Echo(EchoMessage) returns (EchoMessage) {}
+service Echo {
+  rpc Send(EchoMessage) returns (EchoMessage){}
 }

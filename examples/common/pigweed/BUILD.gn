@@ -42,6 +42,7 @@ if (chip_enable_pw_rpc) {
 
   pw_proto_library("echo_service") {
     sources = [ "protos/echo_service.proto" ]
+    inputs = [ "protos/echo_service.options" ]
     deps = [ "$dir_pw_protobuf:common_protos" ]
     strip_prefix = "protos"
     prefix = "echo_service"
