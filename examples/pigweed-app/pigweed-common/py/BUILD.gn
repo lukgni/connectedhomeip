@@ -25,7 +25,7 @@ pw_python_package("pigweed_app") {
     version = "0.0.1"
     install_requires = [ "ipython" ]
   }
-  sources = [ "console/rpc_console.py" ]
+  sources = [ "pigweed_app/rpc_console.py" ]
   python_deps = [
     "$dir_pw_hdlc/py",
     "$dir_pw_protobuf_compiler/py",
