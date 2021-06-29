@@ -30,6 +30,7 @@ target_include_directories(${APP_TARGET} PRIVATE
                         ${CMAKE_CURRENT_SOURCE_DIR}
                         ${MBED_COMMON}/util/include
                         ${CHIP_ROOT}/src/lib/support
+                        ${CMAKE_CURRENT_SOURCE_DIR}/main/include/
 )
 
 target_sources(${APP_TARGET} PRIVATE
