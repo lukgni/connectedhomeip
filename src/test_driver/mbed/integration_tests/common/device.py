@@ -24,6 +24,10 @@ log = logging.getLogger(__name__)
 class Device:
 
     def __init__(self, name: Optional[str] = None):
+        """
+        Base Device runner class containing device handling functions and logging
+        :param name: Logging name for the client
+        """
         self.iq = queue.Queue()
         self.oq = queue.Queue()
         if name is None:

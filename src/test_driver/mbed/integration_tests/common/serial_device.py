@@ -46,7 +46,7 @@ class SerialDevice(Device):
 
     def __init__(self, serial_connection, name=None):
         """
-        Serial Client runner class containing client handling functions and logging, inherits the Client runner class
+        Serial Device runner class containing device handling functions and logging, inherits the Device runner class
         :param serial_connection: Serial connection object
         :param name: Logging name for the client
         """
