@@ -44,7 +44,6 @@ def is_network_visible(net_list, net_ssid):
     :param net_ssid: network ssid we are looking for
     :return: True if netowrk exists on the list, otherwise False
     """
-    try:
     for line in net_list:
         if "Network:" in line and net_ssid in line:
             return True

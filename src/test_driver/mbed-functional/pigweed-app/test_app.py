@@ -20,6 +20,13 @@ from common.pigweed_client import PigweedClient
 RPC_PROTOS = [echo_service_pb2]
 PW_ECHO_TEST_MESSAGE = "Test_message"
 
+@pytest.mark.smoketest
+def test_smoke_test(device):
+    device.reset(duration=1)
+    ret = device.wait_for_output("chip-mbed-pigweed-example")
+    assert ret != None and len(ret) > 1
+
+@pytest.mark.pigweedRpcTest
 def test_echo(device):
     pw_client = PigweedClient(device, RPC_PROTOS)
     status, payload = pw_client.rpcs.chip.rpc.Echo.Send(msg=PW_ECHO_TEST_MESSAGE)
