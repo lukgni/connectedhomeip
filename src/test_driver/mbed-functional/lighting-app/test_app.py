@@ -52,7 +52,6 @@ def test_smoke_test_rpc(device):
 
     qr_code = ret[-1].split()[-1].strip("[]")
     device_details = dict(SetupPayload().ParseQrCode("VP:vendorpayload%{}".format(qr_code)).attributes)
-    print(device_details)
     assert device_details != None and len(device_details) != 0
     assert int(device_details["VendorID"]) == payload.vendor_id
     assert int(device_details["ProductID"]) == payload.product_id
@@ -102,7 +101,6 @@ def test_wifi_provisioning_chip_tool(device, network, chip_tools_dir):
     out = process.stdout.read()
     process.wait()
     assert process.returncode == 0
-    print(out)
     assert "ConnectDevice complete" in out and "Network Provisioning Success" in out
 
 
