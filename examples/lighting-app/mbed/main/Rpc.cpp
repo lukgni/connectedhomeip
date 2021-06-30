@@ -85,8 +85,24 @@ public:
     }
     pw::Status GetDeviceInfo(ServerContext &, const pw_protobuf_Empty & request, chip_rpc_DeviceInfo & response)
     {
-        response.vendor_id        = 1234;
-        response.product_id       = 5678;
+        uint16_t vendorId;
+        auto err = ConfigurationMgr().GetVendorId(vendorId);
+        if (err != CHIP_NO_ERROR)
+        {
+            ChipLogError(NotSpecified, "Get vendor ID failed[%d]", err);
+            return pw::Status::Internal();
+        }
+        response.vendor_id = vendorId;
+
+        uint16_t productId;
+        err = ConfigurationMgr().GetProductId(productId);
+        if (err != CHIP_NO_ERROR)
+        {
+            ChipLogError(NotSpecified, "Get product ID failed[%d]", err);
+            return pw::Status::Internal();
+        }
+        response.product_id = productId;
+
         response.software_version = 0;
         return pw::OkStatus();
     }
