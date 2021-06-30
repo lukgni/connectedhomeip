@@ -51,16 +51,14 @@ class SerialDevice(Device):
         :param name: Logging name for the client
         """
         self.serial = serial_connection
-        self.run = True
+        self.run = False
         super(SerialDevice, self).__init__(name)
+
         input_thread_name = '<-- {}'.format(self.name)
         output_thread_name = '--> {}'.format(self.name)
 
         self.it = threading.Thread(target=self._input_thread, name=input_thread_name)
         self.ot = threading.Thread(target=self._output_thread, name=output_thread_name)
-        log.info('Starting runner threads for "{}"'.format(self.name))
-        self.it.start()
-        self.ot.start()
 
     def reset(self, duration=0.25):
         """
@@ -68,6 +66,16 @@ class SerialDevice(Device):
         :param duration: Break duration
         """
         self.serial.send_break(duration)
+
+    def start(self):
+        """
+        Start the processing of the serial
+        """
+        log.info('Starting "{}" runner...'.format(self.name))
+        self.run = True
+        self.it.start()
+        self.ot.start()
+        log.info('"{}" runner started'.format(self.name))
 
     def stop(self):
         """

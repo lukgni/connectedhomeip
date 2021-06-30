@@ -111,6 +111,7 @@ class BoardAllocator:
 
                 # Create the serial device
                 alloc.device = SerialDevice(connection, name)
+                alloc.device.start()
                 alloc.device.reset(duration=1)
                 alloc.device.flush(1)
 

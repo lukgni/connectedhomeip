@@ -33,6 +33,18 @@ class SerialConnection:
         if not self.ser.is_open:
             self.ser.open()
 
+    def read(self, size=1):
+        """
+        Read bytes from serial port
+        :return: Bytes from serial stream
+        """
+        try:
+            output = self.ser.read(size)
+            return output
+        except SerialException as se:
+            log.error('Serial connection read error: {}'.format(se))
+            return None
+
     def readline(self):
         """
         Read line from serial port
@@ -42,7 +54,7 @@ class SerialConnection:
             output = self.ser.readline()
             return output
         except SerialException as se:
-            log.error('Serial connection read error: {}'.format(se))
+            log.error('Serial connection read line error: {}'.format(se))
             return None
 
     def write(self, data):
@@ -69,6 +81,16 @@ class SerialConnection:
             self.ser.send_break(duration)
         except SerialException as se:
             log.error('Serial connection send break error: {}'.format(se))
+
+    def set_timeout(self, timeout=1):
+        """
+        Set read timeout of serial port
+        :param timeout: timeout value in seconds
+        """
+        try:
+            self.ser.timeout = timeout
+        except SerialException as se:
+            log.error('Serial connection set read timeout error: {}'.format(se))
 
     def close(self):
         """
