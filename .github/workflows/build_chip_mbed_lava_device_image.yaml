@@ -11,6 +11,9 @@ jobs:
     chip-build-cr:
         name: Build and push multi-arch 'chip-mbed-lava-device' image
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            packages: write
         env:
             ARCH: "x86_64 aarch64"
             IMAGE_NAME: chip-mbed-lava-device
