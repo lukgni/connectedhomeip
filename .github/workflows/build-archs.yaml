@@ -29,7 +29,7 @@ jobs:
         name: chip-build-${{matrix.TARGET_ARCH}}
         runs-on: ubuntu-latest
         env:
-            DOCKER_CR_IMAGE: ghcr.io/lukgni/chip-build:latest
+            DOCKER_CR_IMAGE: ghcr.io/ARMmbed/chip-build:latest
 
         steps:
             - name: Checkout
