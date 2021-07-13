@@ -27,7 +27,7 @@ actions:
 - deploy:
     to: docker
     image:
-      name: lgniadzik/chip-mbed-lava-device:latest
+      name: ghcr.io/lukgni/chip-mbed-lava-device:latest
 - boot:
     method: docker
     command: bash
