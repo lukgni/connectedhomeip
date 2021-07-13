@@ -23,6 +23,12 @@ log = logging.getLogger(__name__)
 
 @pytest.mark.smoketest
 def test_btp_device_visiable(device, device_controller):
+    # Enable advertisement
+    ret = device.send(command="btp adv start", expected_output="Done")
+    assert ret != None
+
+    sleep(5)
+
     # Check if device is visible
     assert len(scan_chip_ble_devices(device_controller)) != 0
 
@@ -32,7 +38,7 @@ def test_btp_adv_check(device, device_controller):
     ret = device.send(command="btp adv start", expected_output="Done")
     assert ret != None
 
-    sleep(1)
+    sleep(5)
 
     # Check if device is visible
     numberOfBleDevice = len(scan_chip_ble_devices(device_controller))
@@ -42,7 +48,7 @@ def test_btp_adv_check(device, device_controller):
     ret = device.send(command="btp adv stop", expected_output="Done")
     assert ret != None
 
-    sleep(1)
+    sleep(5)
 
     # Check if device is not visible
     assert len(scan_chip_ble_devices(device_controller)) == (numberOfBleDevice - 1)
