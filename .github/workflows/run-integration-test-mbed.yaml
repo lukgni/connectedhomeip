@@ -46,12 +46,12 @@ jobs:
             if_true: "${{ github.sha }}"
             if_false: "pull-${{ github.event.pull_request.number }}"
 
-      - name: Try to get last succesfull |run_id| from build_cr.yaml workflow 
+      - name: Try to get last succesfull |run_id| from build-archs.yaml workflow 
         run: |
               echo "CHIPTOOL_CR_RUN_ID=$(\
               curl --silent \
               --request GET \
-              --url 'https://api.github.com/repos/${{ github.repository }}/actions/workflows/build_cr.yaml/runs?per_page=1&status=success' \
+              --url 'https://api.github.com/repos/${{ github.repository }}/actions/workflows/build-archs.yaml/runs?per_page=1&status=success' \
               --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
               --header 'content-type: application/json' | \
               jq '.workflow_runs[0].id' \
@@ -60,7 +60,7 @@ jobs:
       - name: Verify correctness of requested |run_id|
         run: |
             if [[ "$CHIPTOOL_CR_RUN_ID" == "null" ]]; then
-            echo "::error::Can't obtain last succesfull run_id from build_cr.yaml workflow"
+            echo "::error::Can't obtain last succesfull run_id from build-archs.yaml workflow"
             exit 1
             fi
       - name: Prepare lava job
