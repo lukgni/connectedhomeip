@@ -1,4 +1,4 @@
-name: Build CI image - chip-build 
+name: Build CI image - chip-mbed-lava-device
 on:
   workflow_dispatch:
     inputs:
@@ -9,11 +9,11 @@ on:
 
 jobs:
     chip-build-cr:
-        name: Build and push multi-arch 'chip-build' image
+        name: Build and push multi-arch 'chip-mbed-lava-device' image
         runs-on: ubuntu-latest
         env:
             ARCH: "x86_64 aarch64"
-            IMAGE_NAME: chip-build
+            IMAGE_NAME: chip-mbed-lava-device
 
         steps:
             - name: Prepare platform arguments
@@ -50,11 +50,11 @@ jobs:
                 registry: ghcr.io
                 username: ${{ github.repository_owner }}
                 password: ${{ secrets.GITHUB_TOKEN }}
-
+                
             - name: Build and push
               uses: docker/build-push-action@v2
               with:
-                context: integrations/docker/images/${{ env.IMAGE_NAME }}
+                context: integrations/docker/ci-only-images/${{ env.IMAGE_NAME }}
                 push: true
                 tags: ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.BUILD_VERSION }}
                 platforms: ${{ env.DOCKER_BUILDX_PLATFORMS}}
