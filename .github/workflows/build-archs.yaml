@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Build CHIP for lava-worker
+name: Builds - x86_64, aarch64
 
 on:
   workflow_dispatch:
   schedule:
     # Triggers the workflow every day at 3:00 UTC:
-    - cron:  '0 11 * * *'
+    - cron:  '0 3 * * *'
 
 jobs:
     build-cr:
