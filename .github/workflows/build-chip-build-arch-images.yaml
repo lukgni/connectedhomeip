@@ -9,7 +9,7 @@ on:
 
 jobs:
     chip-build-cr:
-        name: Build and push multi-arch 'chip-build' image
+        name: Multi-arch 'chip-build' image
         runs-on: ubuntu-latest
         permissions:
             contents: read
