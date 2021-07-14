@@ -28,7 +28,7 @@ actions:
 - deploy:
     to: docker
     image:
-      name: ghcr.io/ARMmbed/chip-mbed-lava-device:latest
+      name: ghcr.io/armmbed/connectedhomeip/chip-mbed-lava-device:latest
 - boot:
     method: docker
     command: bash
