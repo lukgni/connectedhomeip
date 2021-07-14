@@ -9,7 +9,7 @@ on:
 
 jobs:
     chip-build-cr:
-        name: Build and push multi-arch 'chip-mbed-lava-device' image
+        name: Multi-arch 'chip-mbed-lava-device' image
         runs-on: ubuntu-latest
         permissions:
             contents: read
