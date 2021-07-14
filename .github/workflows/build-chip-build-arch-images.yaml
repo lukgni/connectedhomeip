@@ -64,5 +64,5 @@ jobs:
               with:
                 context: integrations/docker/images/${{ env.IMAGE_NAME }}
                 push: true
-                tags: ghcr.io/${{ GITHUB_REPOSITORY_LC }}/${{ env.IMAGE_NAME }}:${{ env.BUILD_VERSION }}
+                tags: ghcr.io/${{ env.GITHUB_REPOSITORY_LC }}/${{ env.IMAGE_NAME }}:${{ env.BUILD_VERSION }}
                 platforms: ${{ env.DOCKER_BUILDX_PLATFORMS}}
