@@ -57,6 +57,7 @@ def test_smoke_test_rpc(device):
     assert int(device_details["ProductID"]) == payload.product_id
 
 @pytest.mark.deviceControllerTest
+@pytest.mark.skip(reason="Chip-tool is unstable")
 def test_wifi_provisioning_dev_ctrl(device, network, device_controller):
     network_ssid = network[0]
     network_pass = network[1]
@@ -86,6 +87,7 @@ def test_wifi_provisioning_dev_ctrl(device, network, device_controller):
     assert ret != None and ret == DEVICE_NODE_ID
 
 @pytest.mark.chipToolTest
+@pytest.mark.skip(reason="Chip-tool is unstable")
 def test_wifi_provisioning_chip_tool(device, network, chip_tools_dir):
     network_ssid = network[0]
     network_pass = network[1]
@@ -105,6 +107,7 @@ def test_wifi_provisioning_chip_tool(device, network, chip_tools_dir):
 
 
 @pytest.mark.deviceControllerTest
+@pytest.mark.skip(reason="Chip-tool is unstable")
 def test_light_ctrl_dev_ctrl(device, network, device_controller):
     network_ssid = network[0]
     network_pass = network[1]
@@ -164,6 +167,7 @@ def test_light_ctrl_dev_ctrl(device, network, device_controller):
         assert False
 
 @pytest.mark.chipToolTest
+@pytest.mark.skip(reason="Chip-tool is unstable")
 def test_light_ctrl_chip_tool(device, network, chip_tools_dir):
     network_ssid = network[0]
     network_pass = network[1]
