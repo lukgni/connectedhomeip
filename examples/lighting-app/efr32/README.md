@@ -4,14 +4,15 @@ An example showing the use of CHIP on the Silicon Labs EFR32 MG12.
 
 <hr>
 
-- [Introduction](#introduction)
-- [Building](#building)
-- [Flashing the Application](#flashing-the-application)
-- [Viewing Logging Output](#viewing-logging-output)
-- [Running the Complete Example](#running-the-complete-example)
-  - [Notes](#notes)
-- [Running Pigweed RPC console](#running-pigweed-rpc-console)
-- [Memory settings](#memory-settings)
+-   [CHIP EFR32 Lighting Example](#chip-efr32-lighting-example)
+    -   [Introduction](#introduction)
+    -   [Building](#building)
+        -   [Note](#note)
+    -   [Flashing the Application](#flashing-the-application)
+    -   [Viewing Logging Output](#viewing-logging-output)
+    -   [Running the Complete Example](#running-the-complete-example)
+        -   [Notes](#notes)
+    -   [Running Pigweed RPC console](#running-pigweed-rpc-console)
 
 <hr>
 
