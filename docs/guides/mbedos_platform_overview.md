@@ -48,6 +48,35 @@ Finally, Mbed OS implements the retargeting layer and boot process integration o
 supported toolchain, so application development feels similar to C or C++ development
 for any other operating system.
 
+# Bluetooth and IP stacks
+In the Mbed-oS platform applications, the Bluetooth LE interface is used to
+perform pairing and Wi-Fi network provisioning operations between the CHIP
+device and the CHIP controller. Afterwards, the fully provisioned device is able
+to communicate with other devices inside the Wi-Fi network.
+
+For the Bluetooth LE communication purposes, the Mbed-OS platform
+application is using [ARM Mbed BLE](https://os.mbed.com/docs/mbed-os/v6.12/apis/ble.html) (also called BLE_API) - Bluetooth Low Energy software
+solution which interfaces with the BLE controller on the  hardware target.
+ARM Mbed BLE hides the BLE stack’s complexity behind C++ abstractions and is compatible
+with all BLE-enabled Mbed board. The Mbed OS BLE_API automatically configuring the clocks,
+timers and other hardware peripherals to work at their lowest power consumption.
+
+For Wi-FI communication purposes, the Mbed-OS application is
+using internal Mbed LWIP stack and Mbed Socket API together. To integrate it with CHIP
+network layer, special glue socket layer has been introduced to take care of
+adapting the Mbed socket to BSD interface which is used inside the CHIP endpoints
+implementation.
+
+## CHIP integration
+The Bluetooth LE and Wi-Fi used stacks provided
+by the Mbed-OS has been integrated with the CHIP stack using a
+special intermediate layer.
+
+This layer contains platform-specific implementations of abstract
+manager interfaces defined in the CHIP stack. The application is able to use CHIP's platform
+agnostic interfaces and no additional platform-related actions are needed to
+perform communication through the CHIP stack.
+
 # CHIP example applications
 The ARM Mbed-OS platform provides bunch of ported CHIP sample applications which can be used
 to spped-up developemnt process:
