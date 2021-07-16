@@ -47,3 +47,23 @@ embedded file system, backed with a (Q)SPI NOR flash chip.
 Finally, Mbed OS implements the retargeting layer and boot process integration of each
 supported toolchain, so application development feels similar to C or C++ development
 for any other operating system.
+
+# CHIP example applications
+The ARM Mbed-OS platform provides bunch of ported CHIP sample applications which can be used
+to spped-up developemnt process:
+- shell
+- all-clusters-app
+- [lock-app](../../examples/lock-app/mbed/README.md)
+- [lighting-app](../../examples/lighting-app/mbed/README.md)
+
+## CHIP stack configuration
+In each of supported examples, the CHIP stack can be configured by modyfying `CHIPProjectConfig.h` file
+which is placed inside the project directory.
+
+## Mbed-OS configuration
+The Mbed-OS gives possibility to tweak its parameters by using
+[Mbed-OS configuration system](https://os.mbed.com/docs/mbed-os/v6.12/program-setup/advanced-configuration.html).
+The same configuration system can be used to change default hardware target setup used in
+application. Additionally, it is the first place for adding support of the new hardware
+target support into the application. Mbed-OS configuration system can be accessed by modyfing
+`mbed_app.json` file which exists in each sample project directory.
