@@ -67,3 +67,30 @@ The same configuration system can be used to change default hardware target setu
 application. Additionally, it is the first place for adding support of the new hardware
 target support into the application. Mbed-OS configuration system can be accessed by modyfing
 `mbed_app.json` file which exists in each sample project directory.
+
+## Build system
+
+The Mbed-OS platform makes use of the following build systems to generate
+ninja build scripts:
+
+-   GN - Used by the CHIP project in majority of cases.
+-   CMake (+ mbed-tools) - Used by the Mbed-OS user application and other
+    components within Mbed ecosystem.
+
+As a result, CHIP's stack and platform modules are built with GN and the output
+is used to generate the library file. The
+application, Mbed-OS and target specific libraries are built with CMake and the CHIP
+library file is imported during the compilation process.
+
+## Build profiles
+
+Arm Mbed OS defines three collections of toolchain flags used during the build:
+ 
+ - develop
+ - release
+ - debug
+
+Build profiles can be easly selected when building example application using either
+vscode task or its associated build script directly ([mbed_examples.sh](../../scripts/examples/mbed_example.sh)).
+
+For more details about each of this profiles, please visit official [ARM Mbed documentation](https://os.mbed.com/docs/mbed-os/v6.12/program-setup/build-profiles-and-rules.html).
